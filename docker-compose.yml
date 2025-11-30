@@ -1,0 +1,25 @@
+services:
+  backend:
+    build: ./backend
+    ports:
+      - "80:80"
+    networks:
+      - app-network
+    depends_on:
+      - python-api
+    environment:
+      # пример переменных, если нужно
+      - CAR_SERVICE_HOST=python-api
+      - CAR_SERVICE_PORT=8000
+      - CAR_SERVICE_PATH=/api/analyze
+
+  python-api:
+    build: ./ml
+    ports:
+      - "8000:8000"
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
